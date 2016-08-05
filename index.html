@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        label.required:after {
+            content: " *";
+            color: red;
+        }
+    </style>
+    <title>SIP Auth Tester</title>
+    <script src="js/global.js"></script>
+    <script src="js/sipauth.js"></script>
+    <script src="js/md5.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css " integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u
+        " crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <h1>SIP Authorization Tester</h1>
+            <p>
+                This simple utility will allow you to securely verify your SIP authorization headers. Since all of the processing happens
+                in your browser, no sensitive information is transmitted over the wire.
+            </p>
+            <form id="mainForm">
+                <div class="form-group">
+                    <label for="sipMethod" class="required">SIP Method</label>
+                    <select class="form-control" id="sipMethod" required>
+                        <option>REGISTER</option>
+                        <option>INVITE</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="authHeader" class="required">SIP Authorization Header</label>
+                    <textarea class="form-control" id="authHeader" placeholder="Authorization: Digest . . ." rows="3" autofocus required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="sipPassword" class="required">Password</label>
+                    <input type="password" class="form-control" id="sipPassword" placeholder="Password" required />
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" onchange="document.getElementById('sipPassword').type = this.checked ? 'text' : 'password'"> Show Password
+                    </label>
+                </div>
+                <button class="btn btn-success" type="submit">Evaluate</button>
+                <button class="btn btn-default" type="reset">Reset</button>
+            </form>
+            <br />
+            <div id="resultsDiv" class="panel" style="visibility: hidden">
+                <div class="panel-heading">Results</div>
+                <div id="resultsBody" class="panel-body">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2 col-md-offset-5">
+            <div class="center-block">
+                <a href="https://www.clearfly.net/"><img src="https://www.clearfly.net/img/clearfly_logo_80.png" alt="Clearfly Communications" class="img-responsive pull-left"></a>
+                <a href="https://github.com/kmix/sipauth"><img src="img/Octocat.png" alt="Check me out on GitHub" width="30%" height="30%" class="img-responsive pull-right"></a>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+
+</html>
