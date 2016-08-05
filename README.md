@@ -18,4 +18,4 @@ And, of course:
  
 ## License
 
-MIT: http://kmix.mit-license.org
+MIT: https://kmix.mit-license.org/

@@ -6,6 +6,7 @@ const input_method: string = "sipMethod";
 const input_authHeader: string = "authHeader";
 const input_password: string = "sipPassword";
 const div_resultWrapper: string = "resultsDiv";
+const div_resultHeader: string = "resultsHeader";
 const div_resultBody: string = "resultsBody";
 const style_visible: string = "visible";
 const style_panel_success: string = "panel panel-success";
@@ -26,13 +27,17 @@ function execute(): boolean {
 
 function buildOutput(result: SIPAuthTestResult): boolean {
     let resultsDiv: HTMLElement = document.getElementById(div_resultWrapper);
+    let resultsHeader: HTMLElement = document.getElementById(div_resultHeader);
     resultsDiv.style.visibility = style_visible;
+    resultsHeader.innerHTML = "";
 
     if (result.providedHash == result.calculatedHash) {
         resultsDiv.className = style_panel_success;
+        resultsHeader.appendChild(document.createTextNode("Verification Successful"));
     }
     else {
         resultsDiv.className = style_panel_danger;
+        resultsHeader.appendChild(document.createTextNode("Verification Failed"));
     }
 
     var resultsBody: HTMLElement = document.getElementById(div_resultBody);

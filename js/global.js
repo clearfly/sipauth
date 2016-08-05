@@ -5,6 +5,7 @@ var input_method = "sipMethod";
 var input_authHeader = "authHeader";
 var input_password = "sipPassword";
 var div_resultWrapper = "resultsDiv";
+var div_resultHeader = "resultsHeader";
 var div_resultBody = "resultsBody";
 var style_visible = "visible";
 var style_panel_success = "panel panel-success";
@@ -22,12 +23,16 @@ function execute() {
 }
 function buildOutput(result) {
     var resultsDiv = document.getElementById(div_resultWrapper);
+    var resultsHeader = document.getElementById(div_resultHeader);
     resultsDiv.style.visibility = style_visible;
+    resultsHeader.innerHTML = "";
     if (result.providedHash == result.calculatedHash) {
         resultsDiv.className = style_panel_success;
+        resultsHeader.appendChild(document.createTextNode("Verification Successful"));
     }
     else {
         resultsDiv.className = style_panel_danger;
+        resultsHeader.appendChild(document.createTextNode("Verification Failed"));
     }
     var resultsBody = document.getElementById(div_resultBody);
     resultsBody.innerHTML = "";
