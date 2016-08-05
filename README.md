@@ -1,14 +1,12 @@
-##sipauth
+# SIP Authorization Tester
 
-### SIP Authorization Tester
+## Demo
+[SIP Authorization Tester Demo](https://sipauth.clearfly.net/)
 
-A TypeScript SIP Authorization tester. Currently supports qop=auth and null qop. All script is client-side -- no sensitive information is transmitted.
+## Description
+A SIP Authorization tester written in TypeScript. Currently supports qop=auth and null qop. All script is client-side -- **no sensitive information is transmitted over the wire**.
 
-Demo application:
-
-https://sipauth.clearfly.net
-
-**References:**
+## References
 
 - https://en.wikipedia.org/wiki/Digest_access_authentication
 - https://tools.ietf.org/html/rfc3261
@@ -17,3 +15,7 @@ https://sipauth.clearfly.net
 And, of course:
 
 - https://github.com/blueimp/JavaScript-MD5
+ 
+## License
+
+MIT: http://kmix.mit-license.org
