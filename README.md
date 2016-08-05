@@ -1,3 +1,5 @@
+##sipauth
+
 ### SIP Authorization Tester
 
 A TypeScript SIP Authorization tester. Currently supports qop=auth and null qop. All script is client-side -- no sensitive information is transmitted.
@@ -14,4 +16,4 @@ https://sipauth.clearfly.net
 
 And, of course:
 
--https://github.com/blueimp/JavaScript-MD5
+- https://github.com/blueimp/JavaScript-MD5
