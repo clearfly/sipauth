@@ -4,7 +4,7 @@ var re_realm = 'realm=\"([^"]+)\"';
 var re_uri = 'uri=\"([^"]+)\"';
 var re_nonce = '[^c]nonce=\"([^"]+)\"';
 var re_cnonce = 'cnonce=\"([^"]+)\"';
-var re_nc = 'nc=(\\d+)';
+var re_nc = 'nc=([0-9a-f]+)';
 var re_qop = 'qop=\"?(auth|auth-int)\"?';
 var re_response = 'response=\"([^"]+)\"';
 var SIPAuthTestResult = (function () {

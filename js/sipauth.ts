@@ -4,7 +4,7 @@ const re_realm: string = 'realm=\"([^"]+)\"';
 const re_uri: string = 'uri=\"([^"]+)\"';
 const re_nonce: string = '[^c]nonce=\"([^"]+)\"';
 const re_cnonce: string = 'cnonce=\"([^"]+)\"';
-const re_nc: string = 'nc=(\\d+)';
+const re_nc: string = 'nc=([0-9a-f]+)';
 const re_qop: string = 'qop=\"?(auth|auth-int)\"?';
 const re_response: string = 'response=\"([^"]+)\"';
 

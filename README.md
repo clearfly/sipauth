@@ -11,6 +11,7 @@ A SIP Authorization tester written in TypeScript. Currently supports qop=auth an
 - https://en.wikipedia.org/wiki/Digest_access_authentication
 - https://tools.ietf.org/html/rfc3261
 - https://tools.ietf.org/html/draft-smith-sipping-auth-examples-01
+- https://tools.ietf.org/html/rfc2617
 
 And, of course:
 
