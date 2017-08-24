@@ -8,9 +8,15 @@ var re_nc = 'nc=([0-9a-f]+)';
 var re_qop = 'qop=\"?(auth|auth-int)\"?';
 var re_response = 'response=\"([^"]+)\"';
 var SIPAuthTestResult = (function () {
-    function SIPAuthTestResult(method, authHeader, password) {
+    function SIPAuthTestResult(method, authHeader, username, realm, password) {
         this.method = method;
         this.authHeader = authHeader;
+        if (username != "") {
+            this.providedUsername = username;
+        }
+        if (realm != "") {
+            this.providedRealm = realm;
+        }
         this.password = password;
         processHeader(this);
         return this;
@@ -18,15 +24,17 @@ var SIPAuthTestResult = (function () {
     return SIPAuthTestResult;
 }());
 function processHeader(result) {
-    result.username = extractComponent(re_username, result.authHeader);
-    result.realm = extractComponent(re_realm, result.authHeader);
+    result.extractedUsername = extractComponent(re_username, result.authHeader);
+    result.extractedRealm = extractComponent(re_realm, result.authHeader);
     result.uri = extractComponent(re_uri, result.authHeader);
     result.qop = extractComponent(re_qop, result.authHeader);
     result.nonce = extractComponent(re_nonce, result.authHeader);
     result.cnonce = extractComponent(re_cnonce, result.authHeader);
     result.nc = extractComponent(re_nc, result.authHeader);
     result.providedHash = extractComponent(re_response, result.authHeader);
-    var ha1 = md5(result.username + ":" + result.realm + ":" + result.password);
+    var username = result.providedUsername != null ? result.providedUsername : result.extractedUsername;
+    var realm = result.providedRealm != null ? result.providedRealm : result.extractedRealm;
+    var ha1 = md5(username + ":" + realm + ":" + result.password);
     var ha2 = md5(result.method + ":" + result.uri);
     if (result.qop.toLowerCase() === "auth") {
         result.calculatedHash = md5(ha1 + ":" + result.nonce + ":" + result.nc + ":" + result.cnonce + ":" + result.qop + ":" + ha2);

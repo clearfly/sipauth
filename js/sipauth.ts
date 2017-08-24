@@ -13,8 +13,10 @@ declare function md5(value: string): string;
 class SIPAuthTestResult {
     authHeader: string;
     password: string;
-    username: string;
-    realm: string;
+    providedUsername: string;
+    extractedUsername: string;
+    providedRealm: string;
+    extractedRealm: string;
     method: string;
     uri: string;
     nonce: string;
@@ -24,9 +26,15 @@ class SIPAuthTestResult {
     providedHash: string;
     calculatedHash: string;
 
-    constructor(method: string, authHeader: string, password: string) {
+    constructor(method: string, authHeader: string, username: string, realm: string, password: string) {
         this.method = method;
         this.authHeader = authHeader;
+        if (username != "") {
+            this.providedUsername = username;
+        }
+        if (realm != "") {
+            this.providedRealm = realm;
+        }
         this.password = password;
         processHeader(this);
         return this;
@@ -34,8 +42,8 @@ class SIPAuthTestResult {
 }
 
 function processHeader(result: SIPAuthTestResult): void {
-    result.username = extractComponent(re_username, result.authHeader);
-    result.realm = extractComponent(re_realm, result.authHeader);
+    result.extractedUsername = extractComponent(re_username, result.authHeader);
+    result.extractedRealm = extractComponent(re_realm, result.authHeader);
     result.uri = extractComponent(re_uri, result.authHeader);
     result.qop = extractComponent(re_qop, result.authHeader);
     result.nonce = extractComponent(re_nonce, result.authHeader);
@@ -43,7 +51,9 @@ function processHeader(result: SIPAuthTestResult): void {
     result.nc = extractComponent(re_nc, result.authHeader);
     result.providedHash = extractComponent(re_response, result.authHeader);
 
-    let ha1 = md5(`${result.username}:${result.realm}:${result.password}`);
+    let username = result.providedUsername != null ? result.providedUsername : result.extractedUsername;
+    let realm = result.providedRealm != null ? result.providedRealm : result.extractedRealm;
+    let ha1 = md5(`${username}:${realm}:${result.password}`);
     let ha2 = md5(`${result.method}:${result.uri}`);
     if (result.qop.toLowerCase() === "auth") {
         result.calculatedHash = md5(`${ha1}:${result.nonce}:${result.nc}:${result.cnonce}:${result.qop}:${ha2}`);

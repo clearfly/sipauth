@@ -4,6 +4,8 @@
 const form_main: string = "mainForm";
 const input_method: string = "sipMethod";
 const input_authHeader: string = "authHeader";
+const input_username: string = "sipUsername";
+const input_realm: string = "sipRealm";
 const input_password: string = "sipPassword";
 const div_resultWrapper: string = "resultsDiv";
 const div_resultHeader: string = "resultsHeader";
@@ -20,8 +22,10 @@ function execute(): boolean {
     var methodElement = <HTMLSelectElement>document.getElementById(input_method);
     var method = methodElement.options[methodElement.selectedIndex].textContent;
     var authHeader: string = (<HTMLInputElement>document.getElementById(input_authHeader)).value;
+    var username: string = (<HTMLInputElement>document.getElementById(input_username)).value;
+    var realm: string = (<HTMLInputElement>document.getElementById(input_realm)).value;
     var password: string = (<HTMLInputElement>document.getElementById(input_password)).value;
-    let result: SIPAuthTestResult = new SIPAuthTestResult(method, authHeader, password);
+    let result: SIPAuthTestResult = new SIPAuthTestResult(method, authHeader, username, realm, password);
     return buildOutput(result);
 }
 
@@ -40,29 +44,46 @@ function buildOutput(result: SIPAuthTestResult): boolean {
         resultsHeader.appendChild(document.createTextNode("Verification Failed"));
     }
 
-    var resultsBody: HTMLElement = document.getElementById(div_resultBody);
+    let resultsBody: HTMLElement = document.getElementById(div_resultBody);
     resultsBody.innerHTML = "";
-    resultsBody.appendChild(document.createTextNode(`Method: ${result.method}`));
-    resultsBody.appendChild(document.createElement("br"));
-    resultsBody.appendChild(document.createTextNode(`Username: ${result.username}`));
-    resultsBody.appendChild(document.createElement("br"));
-    resultsBody.appendChild(document.createTextNode(`Realm: ${result.realm}`));
-    resultsBody.appendChild(document.createElement("br"));
-    resultsBody.appendChild(document.createTextNode(`URI: ${result.uri}`));
-    resultsBody.appendChild(document.createElement("br"));
-    resultsBody.appendChild(document.createTextNode(`Nonce: ${result.nonce}`));
-    resultsBody.appendChild(document.createElement("br"));
-    resultsBody.appendChild(document.createTextNode(`CNonce: ${result.cnonce}`));
-    resultsBody.appendChild(document.createElement("br"));
-    resultsBody.appendChild(document.createTextNode(`QOP: ${result.qop}`));
-    resultsBody.appendChild(document.createElement("br"));
-    resultsBody.appendChild(document.createTextNode(`NC: ${result.nc}`));
-    resultsBody.appendChild(document.createElement("br"));
-    resultsBody.appendChild(document.createTextNode(`Provided Response: ${result.providedHash}`));
-    resultsBody.appendChild(document.createElement("br"));
-    resultsBody.appendChild(document.createTextNode(`Calculated Response: ${result.calculatedHash}`));
-    resultsBody.appendChild(document.createElement("br"));
+    appendTextLine(resultsBody, `Method: ${result.method}`, false);
+
+    let usernameResult = `Username: ${result.extractedUsername}`;
+    let usernameBold = false;
+    if (result.providedUsername != null && result.providedUsername != result.extractedUsername) {
+        usernameResult = `${usernameResult} <--- Mismatch!`;
+        usernameBold = true;
+    }
+    appendTextLine(resultsBody, usernameResult, usernameBold);
+
+    let realmResult = `Realm: ${result.extractedRealm}`;
+    let realmBold = false;
+    if (result.providedRealm != null && result.providedRealm != result.extractedRealm) {
+        realmResult = `${realmResult} <--- Mismatch!`;
+        realmBold = true;
+    }
+    appendTextLine(resultsBody, realmResult, realmBold);
+
+    appendTextLine(resultsBody, `URI: ${result.uri}`, false);
+    appendTextLine(resultsBody, `Nonce: ${result.nonce}`, false);
+    appendTextLine(resultsBody, `CNonce: ${result.cnonce}`, false);
+    appendTextLine(resultsBody, `QOP: ${result.qop}`, false);
+    appendTextLine(resultsBody, `NC: ${result.nc}`, false);
+    appendTextLine(resultsBody, `Provided Response: ${result.providedHash}`, false);
+    appendTextLine(resultsBody, `Calculated Response: ${result.calculatedHash}`, result.providedHash != result.calculatedHash);
     return false;
+}
+
+function appendTextLine(resultsBody: HTMLElement, value: string, bold: boolean) {
+    if (bold) {
+        let boldElement = document.createElement("b");
+        boldElement.innerHTML = value;
+        resultsBody.appendChild(boldElement);
+    }
+    else {
+        resultsBody.appendChild(document.createTextNode(value));
+    }
+    resultsBody.appendChild(document.createElement("br"));
 }
 
 window.onload = init;
