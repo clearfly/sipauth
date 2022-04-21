@@ -16,7 +16,3 @@ A SIP Authorization tester written in TypeScript. Currently supports qop=auth an
 And, of course:
 
 - https://github.com/blueimp/JavaScript-MD5
- 
-## License
-
-MIT: https://kmix.mit-license.org/
