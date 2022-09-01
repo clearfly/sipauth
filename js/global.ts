@@ -11,8 +11,8 @@ const div_resultWrapper: string = "resultsDiv";
 const div_resultHeader: string = "resultsHeader";
 const div_resultBody: string = "resultsBody";
 const style_visible: string = "visible";
-const style_panel_success: string = "panel panel-success";
-const style_panel_danger: string = "panel panel-danger";
+const style_card_success: string = "card border-success fw-bold text-success";
+const style_card_danger: string = "card border-danger fw-bold text-danger";
 
 function init(): void {
     document.getElementById(form_main).onsubmit = execute;
@@ -36,11 +36,11 @@ function buildOutput(result: SIPAuthTestResult): boolean {
     resultsHeader.innerHTML = "";
 
     if (result.providedHash == result.calculatedHash) {
-        resultsDiv.className = style_panel_success;
+        resultsDiv.className = style_card_success;
         resultsHeader.appendChild(document.createTextNode("Verification Successful"));
     }
     else {
-        resultsDiv.className = style_panel_danger;
+        resultsDiv.className = style_card_danger;
         resultsHeader.appendChild(document.createTextNode("Verification Failed"));
     }
 

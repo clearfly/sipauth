@@ -10,8 +10,8 @@ var div_resultWrapper = "resultsDiv";
 var div_resultHeader = "resultsHeader";
 var div_resultBody = "resultsBody";
 var style_visible = "visible";
-var style_panel_success = "panel panel-success";
-var style_panel_danger = "panel panel-danger";
+var style_card_success = "card border-success fw-bold text-success";
+var style_card_danger = "card border-danger fw-bold text-danger";
 function init() {
     document.getElementById(form_main).onsubmit = execute;
 }
@@ -31,11 +31,11 @@ function buildOutput(result) {
     resultsDiv.style.visibility = style_visible;
     resultsHeader.innerHTML = "";
     if (result.providedHash == result.calculatedHash) {
-        resultsDiv.className = style_panel_success;
+        resultsDiv.className = style_card_success;
         resultsHeader.appendChild(document.createTextNode("Verification Successful"));
     }
     else {
-        resultsDiv.className = style_panel_danger;
+        resultsDiv.className = style_card_danger;
         resultsHeader.appendChild(document.createTextNode("Verification Failed"));
     }
     var resultsBody = document.getElementById(div_resultBody);
